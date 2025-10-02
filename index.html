@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Chapitre 2 : Fonction inverse</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css" rel="stylesheet"/> <!-- Reveal -->
+<link href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/moon.css" rel="stylesheet"/> <!-- Reveal -->
+<link href="https://fonts.googleapis.com/css2?family=Computer+Modern+Serif&amp;display=swap" rel="stylesheet"><!-- Police computer modern (latex) -->
+<!-- STYLE MANIM -->
+<style>
+  @media print {
+    /* Force un fond noir et du texte blanc pour l'impression */
+    body {
+        background-color: #000 !important;  /* Fond noir */
+        color: #fff !important;              /* Texte blanc */
+    }
+    h2, h3 {
+        color: #ff0000 !important;  /* Couleur des titres */
+        display: block !important;  /* S'assurer que les titres sont affichés */
+        visibility: visible !important;  /* Assurer que les titres sont visibles */
+    }
+    /* Forcer l'impression des arrière-plans pour les divs, sections, etc. */
+    * {
+        background-color: #000 !important;
+        color: #fff !important;
+    }
+  }
+  body, .reveal {
+    font-family: 'Computer Modern Serif', serif;
+    background-color: black;
+    color: white;
+  }
+  .reveal h2 {font-family: 'Computer Modern Serif', serif; color: rgb(255, 37, 37); -webkit-text-stroke: 3px rgb(255, 219, 219); paint-order: stroke fill; font-weight: bold; text-transform: none; font-size: 1.6em; margin-bottom: 0.6em;}
+  .reveal h3 {font-family: 'Computer Modern Serif', serif; color: rgb(22, 161, 22); -webkit-text-stroke: 2.1px rgb(214, 255, 214); paint-order: stroke fill; font-weight: bold; text-transform: none; text-align: left; font-size: 1.3em; margin-bottom: 0.5em; } 
+</style>
+
+<!-- DIVISONS -->
+<style>
+  .def, .defs, .defprop, .prop, .theoreme, .ex, .exs, .rem, .rems, .mnemo, .voc, .rapps {
+  padding: 0.35em; border-radius: 6px; margin: 0.3em auto; position: relative; text-align: left; color: #000; max-width: 95%; min-height: 4em;
+  }
+  .def {border: 5px solid red; background-color: rgb(255, 193, 193);}
+  .defs {border: 5px solid red; background-color: rgb(255, 193, 193);}
+  .defprop {border: 5px solid red; background-color: rgb(255, 193, 193);}
+  .prop {border: 5px solid red; background-color: rgb(255, 193, 193);}
+  .theo {border: 5px solid red; background-color: rgb(255, 193, 193);}
+  .ex {border: 5px solid blue; background-color: rgb(215, 219, 255);}
+  .exs {border: 2px solid blue; background-color: rgb(215, 219, 255);}
+  .rem {border: 5px solid orange; background-color: rgb(255, 232, 188);}
+  .rems {border: 5px solid orange; background-color: rgb(255, 232, 188);}
+  .mnemo {border: 2px solid #711082;; background-color: rgba(210, 14, 204, 0.195);}
+  .voc {border: 5px solid rgb(51, 168, 51); background-color: rgb(166, 218, 166);}
+  .rapps {border: 5px solid rgb(51, 168, 51); background-color: rgb(166, 218, 166);}
+
+  
+  .def::before, .defs::before, .defprop::before, .prop::before, .theoreme::before, .ex::before, .exs::before, .rem::before, .rems::before, .mnemo::before, .voc::before, .rapps::before {
+    display: block; text-align: left; font-weight: bold; margin-bottom: 0.5em;
+  }
+
+  .def::before { content: "Définition :"; color: red; }
+  .defs::before { content: "Définitions :"; color: red; }
+  .defprop::before { content: "Définition / Propriété :"; color: red; }
+  .prop::before  { content: "Propriété :";  color: red; }
+  .theoreme::before  { content: "Théorème :";  color: red; }
+  .ex::before   { content: "Exemple :";   color: rgb(77, 77, 236); }
+  .exes::before   { content: "Exemples :";   color: rgb(77, 77, 236); }
+  .rem::before  { content: "Remarque :";  color: rgb(220, 144, 2); }
+  .rems::before  { content: "Remarques :";  color: rgb(220, 144, 2); }
+  .mnemo::before  { content: "Mnémotechnie :"; color: #711082; }
+  .voc::before {content: "Vocabulaire :"; color: rgb(30, 148, 30);}
+  .rapps::before {content: "Rappels :"; color: rgb(30, 148, 30);}
+</style>
+
+
+<!-- CONFIGURATION MATHJAX -->
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['\\(', '\\)'], ['$', '$']], displayMath: [['\\[', '\\]']],
+      processEscapes: true, packages: ['base', 'ams']
+    },
+    loader: {load: ['[tex]/ams']}, svg: {fontCache: 'global'}
+  };
+</script>
+
+<body>
+<div class="reveal">
+<div class="slides">
+<!-- ----- Début de la présentation ------->
+
+<section>
+  <p class="fragment" data-fragment-index="0" style="font-size: 1.5em; color: #FFFFFF; margin-bottom: -0.11em;">
+    Chapitre 2 : Fonction inverse
+  </p>
+  <video class="fragment video-loop" data-fragment-index="0">
+    <source src="media/cone_hyperbole.mp4" type="video/mp4">
+  </video>
+  <p class="fragment" data-fragment-index="0" style="margin-top: 0em; font-size: 0.6em;">
+    Lycée Marcelin <span style="font-variant: small-caps;">Berthelot</span> - 
+    Aymé <span style="font-variant: small-caps;">Petit</span>
+  </p>
+</section>
+
+<!-- -->
+<!-- I/ Définition et courbe représentative -->
+<!-- -->
+
+<section data-auto-animate>
+    <h2>I/ Définition et courbe représentative</h2>
+</section>
+<section data-auto-animate>
+    <h2>I/ Définition et courbe représentative</h2>
+    <div data-id="dede" class="def" style="font-size: 0.91em;">
+        La <strong>fonction inverse</strong> $f$ est définie sur $\mathbb{R}\setminus\{0\}$ par <span style="border: 3.5px solid red; padding: 9px">$f(x)=\frac{1}{x}$</span>.
+    </div>
+</section>
+
+<section>
+    Voici la courbe représentative de la fonction inverse.
+    <video class="fragment video-fragment">
+        <source src="media/courbe.mp4" type="video/mp4">
+    </video>
+</section>
+<section>
+  <video class="fragment video-loop" data-fragment-index="0">
+    <source src="media/cone_hyperbole.mp4" type="video/mp4">
+  </video>
+</section>
+
+<!-- -->
+<!-- II/ Dérivée et sens de variation -->
+<!-- -->
+
+<section data-auto-animate>
+    <h2>II/ Dérivée et sens de variation</h2>
+</section>
+<section data-auto-animate>
+    <h2>II/ Dérivée et sens de variation</h2>
+    <h3>1) Dérivée de la fonction inverse</h3>
+    <div class="prop fragment">
+        La dérivée de la fonction inverse est définie sur $\mathbb{R}\setminus\{0\}$ par <span style="border: 3.5px solid red; padding: 10px">$f'(x)=-\frac{1}{x^2}$</span>.
+    </div>
+</section>
+
+<section>
+  <div class="fragment" style="text-align: center; margin-top: 0em;">
+    <p style="font-size: 1.5em;">❧ Fin de chapitre ❧</p>
+  </div>
+</section>
+
+
+<!-- ----- Fin de la présentation ----- -->
+</div>
+</div>
+
+<!-- -->
+<!-- Scripts du body -->
+<!-- -->
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js"></script>
+
+<!-- video-fragment -->
+<script>
+  const doubleDelay = 350;
+  const videoStates = new Map(); // état indépendant pour chaque vidéo
+
+  // Réinitialiser les vidéos de la slide active
+  Reveal.on('slidechanged', event => {
+    event.currentSlide.querySelectorAll('.video-fragment').forEach(v => {
+      videoStates.set(v, { started: false, lastPressTime: 0, pressTimer: null });
+      v.pause();
+      v.currentTime = 0;
+    });
+  });
+
+  document.addEventListener("keydown", e => {
+    if (!["ArrowRight","ArrowDown","PageDown"," "].includes(e.key)) return;
+
+    const currentSlide = Reveal.getCurrentSlide();
+    // On cherche la vidéo fragment actuellement visible
+    const v = currentSlide.querySelector('.video-fragment.visible');
+    if (!v) return;
+
+    // Récupérer ou initialiser l'état
+    let state = videoStates.get(v);
+    if (!state) {
+      state = { started: false, lastPressTime: 0, pressTimer: null };
+      videoStates.set(v, state);
+    }
+
+    if (v.ended) return; // si terminée → laisser Reveal gérer
+
+    const now = Date.now();
+
+    if (!state.started) {
+      // Premier suivant → lancer la vidéo
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      v.play().catch(err => console.warn("Lecture bloquée :", err));
+      state.started = true;
+      state.lastPressTime = now;
+      videoStates.set(v, state);
+      return;
+    }
+
+    // Vidéo en cours
+    e.preventDefault();
+    e.stopImmediatePropagation();
+
+    if (now - state.lastPressTime < doubleDelay) {
+      // Double suivant → sauter à la fin + fragment suivant
+      clearTimeout(state.pressTimer);
+      v.currentTime = v.duration;
+      state.lastPressTime = 0;
+      Reveal.nextFragment();
+    } else {
+      // Simple suivant → toggle pause/lecture
+      state.lastPressTime = now;
+      state.pressTimer = setTimeout(() => {
+        if (v.paused) {
+          v.play().catch(err => console.warn("Lecture bloquée :", err));
+        } else {
+          v.pause();
+        }
+        state.lastPressTime = 0;
+        videoStates.set(v, state);
+      }, doubleDelay);
+    }
+
+    videoStates.set(v, state);
+  }, true);
+
+  // Quand une vidéo se termine → débloquer le fragment suivant
+  document.querySelectorAll('.video-fragment').forEach(v => {
+    v.onended = () => {
+      Reveal.nextFragment();
+    };
+  });
+</script>
+
+<!-- video-loop -->
+<script>
+class VideoLoop {
+  constructor(selector = '.video-loop') {
+    this.selector = selector;
+    this.videos = document.querySelectorAll(selector);
+    this.init();
+  }
+
+  init() {
+    const playAllInSlide = (slide) => {
+      slide.querySelectorAll(this.selector).forEach(video => {
+        const promise = video.play();
+        if (promise !== undefined) {
+          promise.catch(err => console.warn("Lecture bloquée :", err));
+        }
+      });
+    };
+
+    // Quand Reveal est prêt
+    Reveal.on('ready', event => playAllInSlide(event.currentSlide));
+
+    // Quand on change de slide
+    Reveal.on('slidechanged', event => {
+      // Stopper toutes les vidéos de l’ancienne slide
+      document.querySelectorAll(this.selector).forEach(v => {
+        v.pause();
+        v.currentTime = 0;
+      });
+      // Lancer toutes les vidéos de la nouvelle slide
+      playAllInSlide(event.currentSlide);
+    });
+
+    // Config autoplay-friendly
+    this.videos.forEach(video => {
+      video.loop = true;
+      video.muted = true;
+      video.playsInline = true;
+      video.preload = "auto";
+    });
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  new VideoLoop('.video-loop');
+});
+</script>
+
+    
+
+
+<!-- Config Reveal -->
+<script>
+    Reveal.initialize({ transition: 'fade', hash: true });
+    const retypeset = (elements = null) => {
+      if (window.MathJax) {
+        MathJax.typesetClear();
+        MathJax.typesetPromise(elements || undefined)
+          .catch(err => console.error("MathJax error:", err.message));
+      }
+    };
+    Reveal.on('ready', () => retypeset());
+    Reveal.on('slidechanged', () => {
+      if (window.MathJax && MathJax.typesetClear && MathJax.typesetPromise) {
+        MathJax.typesetClear(); MathJax.typesetPromise();
+      }
+    });
+    Reveal.on('fragmentshown', event => {
+      const elements = [event.fragment, ...event.fragment.querySelectorAll('*')]; retypeset(elements);
+    });
+</script>
+</body>
+</html>
